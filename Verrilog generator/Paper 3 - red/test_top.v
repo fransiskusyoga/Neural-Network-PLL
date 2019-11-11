@@ -1,0 +1,28 @@
+module test_top(in1,in2,in3,in4,in5,in6,in7,in8,in9,in10,in11,in12,in13,in14,in15,in16,in17,in18,in19,in20,in21,in22,in23,in24,in25,in26,in27,in28,in29,in30,in31,in32,in33,in34,in35,in36,out1,out2,out3,out4,out5,out6,out7,out8,out9,out10);
+   input [8:0] in1,in2,in3,in4,in5,in6,in7,in8,in9,in10,in11,in12,in13,in14,in15,in16,in17,in18,in19,in20,in21,in22,in23,in24,in25,in26,in27,in28,in29,in30,in31,in32,in33,in34,in35,in36;
+   output [10:0] out1,out2,out3,out4,out5,out6,out7,out8,out9,out10;
+   wire signed [9:0] s2_1,s2_2,s2_3,s2_4,s2_5,s2_6,s2_7,s2_8,s2_9,s2_10,s2_11,s2_12,s2_13,s2_14,s2_15,s2_16,s2_17,s2_18,s2_19,s2_20;
+   wire signed [9:0] h2_1,h2_2,h2_3,h2_4,h2_5,h2_6,h2_7,h2_8,h2_9,h2_10,h2_11,h2_12,h2_13,h2_14,h2_15,h2_16,h2_17,h2_18,h2_19,h2_20;
+   test_layer_1 L1(in1,in2,in3,in4,in5,in6,in7,in8,in9,in10,in11,in12,in13,in14,in15,in16,in17,in18,in19,in20,in21,in22,in23,in24,in25,in26,in27,in28,in29,in30,in31,in32,in33,in34,in35,in36,s2_1,s2_2,s2_3,s2_4,s2_5,s2_6,s2_7,s2_8,s2_9,s2_10,s2_11,s2_12,s2_13,s2_14,s2_15,s2_16,s2_17,s2_18,s2_19,s2_20);
+   actifunc #(10) AF2_1(s2_1,h2_1);
+   actifunc #(10) AF2_2(s2_2,h2_2);
+   actifunc #(10) AF2_3(s2_3,h2_3);
+   actifunc #(10) AF2_4(s2_4,h2_4);
+   actifunc #(10) AF2_5(s2_5,h2_5);
+   actifunc #(10) AF2_6(s2_6,h2_6);
+   actifunc #(10) AF2_7(s2_7,h2_7);
+   actifunc #(10) AF2_8(s2_8,h2_8);
+   actifunc #(10) AF2_9(s2_9,h2_9);
+   actifunc #(10) AF2_10(s2_10,h2_10);
+   actifunc #(10) AF2_11(s2_11,h2_11);
+   actifunc #(10) AF2_12(s2_12,h2_12);
+   actifunc #(10) AF2_13(s2_13,h2_13);
+   actifunc #(10) AF2_14(s2_14,h2_14);
+   actifunc #(10) AF2_15(s2_15,h2_15);
+   actifunc #(10) AF2_16(s2_16,h2_16);
+   actifunc #(10) AF2_17(s2_17,h2_17);
+   actifunc #(10) AF2_18(s2_18,h2_18);
+   actifunc #(10) AF2_19(s2_19,h2_19);
+   actifunc #(10) AF2_20(s2_20,h2_20);
+   test_layer_2 L2(h2_1[9:0],h2_2[9:0],h2_3[9:0],h2_4[9:0],h2_5[9:0],h2_6[9:0],h2_7[9:0],h2_8[9:0],h2_9[9:0],h2_10[9:0],h2_11[9:0],h2_12[9:0],h2_13[9:0],h2_14[9:0],h2_15[9:0],h2_16[9:0],h2_17[9:0],h2_18[9:0],h2_19[9:0],h2_20[9:0],out1,out2,out3,out4,out5,out6,out7,out8,out9,out10);
+endmodule

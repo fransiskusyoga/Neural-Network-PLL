@@ -1,0 +1,30 @@
+`include "actifunc.v"
+module layer_12(in1,out1,out2,out3,out4,out5,out6);
+   input signed [8:0] in1;
+   output signed [15:0] out1,out2,out3,out4,out5,out6;
+   wire signed [17:0] m1_1,m1_2,m1_3,m1_4,m1_5,m1_6;
+   wire signed [9:0] w1_1 = $signed(10'h3FD);
+   wire signed [9:0] w1_2 = $signed(10'h2FD);
+   wire signed [9:0] w1_3 = $signed(10'h3BE);
+   wire signed [9:0] w1_4 = $signed(10'h364);
+   wire signed [9:0] w1_5 = $signed(10'h364);
+   wire signed [9:0] w1_6 = $signed(10'h3FC);
+   wire signed [15:0] b1 = $signed(16'h3E);
+   wire signed [15:0] b2 = $signed(16'h90);
+   wire signed [15:0] b3 = $signed(16'hE);
+   wire signed [15:0] b4 = $signed(16'h38);
+   wire signed [15:0] b5 = $signed(16'hF0);
+   wire signed [15:0] b6 = $signed(16'h10);
+   assign m1_1 = in1*w1_1;
+   assign m1_2 = in1*w1_2;
+   assign m1_3 = in1*w1_3;
+   assign m1_4 = in1*w1_4;
+   assign m1_5 = in1*w1_5;
+   assign m1_6 = in1*w1_6;
+   assign out1 = m1_1[17:2]+b1;
+   assign out2 = m1_2[17:2]+b2;
+   assign out3 = m1_3[17:2]+b3;
+   assign out4 = m1_4[17:2]+b4;
+   assign out5 = m1_5[17:2]+b5;
+   assign out6 = m1_6[17:2]+b6;
+endmodule

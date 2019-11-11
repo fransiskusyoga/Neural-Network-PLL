@@ -1,0 +1,15 @@
+#-----------------------------------------------------------
+# xsim v2018.2 (64-bit)
+# SW Build 2258646 on Thu Jun 14 20:02:38 MDT 2018
+# IP Build 2256618 on Thu Jun 14 22:10:49 MDT 2018
+# Start of session at: Fri May 31 10:43:24 2019
+# Process ID: 12880
+# Current directory: /media/fransiskusyoga/Echo One/Documents/Post Kuliah/NTU Visit/ADPLL/Verrilog generator/test_folder
+# Command line: xsim -source {xsim.dir/lenet_io_sim.wdb/xsim_script.tcl}
+# Log file: /media/fransiskusyoga/Echo One/Documents/Post Kuliah/NTU Visit/ADPLL/Verrilog generator/test_folder/xsim.log
+# Journal file: /media/fransiskusyoga/Echo One/Documents/Post Kuliah/NTU Visit/ADPLL/Verrilog generator/test_folder/xsim.jou
+#-----------------------------------------------------------
+start_gui
+source xsim.dir/lenet_io_sim.wdb/xsim_script.tcl
+add_wave {{/lenet_io_tb/DUT}} 
+close_sim
