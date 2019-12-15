@@ -3,3 +3,14 @@ Dataset need a huge amound of data. This folder contains the program to generate
 
 ### Output file
 On the deefault setting it will create 2 files rise.csv and jitter.csv. The rise.csv contains the matrix of rising edge in diffrent simulation setting. The jitter.csv contains corresponding jitter value. Both csv-s is N row and M column. Data in same row have same Kp value and data in same column have same DCO noise level. You can scpecify the number of Kp variety and the number of DCO range you wanna use. 
+
+### Running the program
+```
+make
+./create_dataset
+```
+or
+```
+make
+create_dataset.exe
+```
