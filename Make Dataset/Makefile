@@ -3,7 +3,7 @@ inputFiles = create_dataset.c
 dependencies = create_dataset.c Makefile
 
 all:
-	gcc -o miner $(inputFiles) $(compileOptions)
+	gcc -o create_dataset $(inputFiles) $(compileOptions)
 	
 clean:
-	rm miner
+	rm create_dataset
