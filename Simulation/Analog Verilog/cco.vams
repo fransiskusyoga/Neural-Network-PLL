@@ -1,0 +1,59 @@
+// and
+//
+// Version 1a, 1 June 04
+//
+// Ken Kundert
+//
+// Downloaded from The Designer's Guide Community (www.designers-guide.org).
+// Post any questions on www.designers-guide.org/Forum.
+// Taken from "The Designer's Guide to Verilog-AMS" by Kundert & Zinke.
+// Chapter 5, Listing 3.
+
+`include "disciplines.vams"
+`include "constants.vams"
+
+module cco(in,out,outbar,phase);
+    input in; 
+	output out,outbar; 
+	output phase; 
+	electrical in;
+	electrical out,outbar;
+	electrical phase;
+	
+	//parameter real Vmin=0;
+	//parameter real Vmax=1 from (Vmin:inf);
+	parameter real Fmin=3.3e9 from (0:inf);	
+	parameter real DCO_Gain=5e6;
+	parameter real Vlo=0, Vhi=1;
+	parameter real I0 = 1.03647e-3;
+	parameter real risetime = 30p from (0:inf);
+	parameter real jitter = 1e-12 from [0:inf);
+	parameter real ttol = 1e-12 from (0:1e-9);
+
+    real freq, dT , Vo;
+    integer n, seed;	
+	
+	analog begin 
+	@(initial_step) seed = -561;
+	//compute the frequency from input current
+	freq = ((I(in)-I0)/1.4e-6)*DCO_Gain + Fmin;
+	
+	//add the phase noise
+	freq = freq/(1+dT*freq);
+	
+	//phase is the integral of the freq module 2pi
+	V(phase) <+ 2*`M_PI*idtmod(freq, 0, 1.0, -0.5);
+	
+	//update jitter twice per period
+	@(cross(V(phase) + `M_PI/2, +1, ttol) or cross(V(phase) - `M_PI/2, +1, ttol)) begin
+	  dT = 1.414*jitter*$rdist_normal(seed, 0, 1);
+	end
+	
+	//generate the output
+    Vo = 0.5*cos(V(phase))+0.5;	  // output sine 0 to 1	
+	V(out) <+ transition(Vo>0.5?Vhi:Vlo,0,risetime);
+ 	V(outbar) <+ transition(Vo>0.5?Vlo:Vhi,0,risetime); 
+    end
+endmodule
+
+

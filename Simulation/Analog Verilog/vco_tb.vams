@@ -1,0 +1,12 @@
+`include "constants.vams"
+`include "disciplines.vams"
+`include "vco.vams"
+`timescale 10ns / 10ps
+module vco_tb();
+    electrical gnd;
+    ground gnd;
+    wire out,dout;
+
+    vco gen_vco(in,phs,out,dout);
+    vsource #(.type("sine"), .ampl(0.5), .dc(0.5), .freq(1M)) v0 (in, gnd);
+endmodule

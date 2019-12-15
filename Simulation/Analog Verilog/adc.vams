@@ -1,0 +1,15 @@
+`include "constants.vams"
+`include "disciplines.vams"
+
+module adc(in, out);
+   input [6:0] in;
+   electrical out;
+   real val;
+   
+   analog begin
+      //value is between 0 and 1
+      val = 0.5*in[6]+0.25*in[5]+0.125*in[4]+0.0625*in[3]+
+             0.03125*in[2]+0.015625*in[1]+0.0078125*in[0];
+      V(out) <+ transition(val,10p,10p,10p);
+   end
+endmodule

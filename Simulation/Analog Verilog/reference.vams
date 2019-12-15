@@ -1,0 +1,33 @@
+`include "constants.vams"
+`include "disciplines.vams"
+
+module reference(phase,out,dout);
+   output phase,out,dout;
+	electrical phase,out;
+   reg dout = 1'b0;
+	
+	parameter real Fref=50e6 from (0:inf);   
+	parameter real risetime = 30p from (0:inf);
+	parameter real jitter = 1e-9 from [0:inf);	//90 dB
+	parameter real ttol = 1e-12 from (0:1e-9);
+
+   real Vo, dphs, nphs;
+   integer seed = 1;
+   
+	analog begin      
+      //phase is the integral of the freq module 2pi
+      V(phase) <+ 2*`M_PI*idtmod(Fref, 0, 1.0, -0.5);
+      //update jitter twice per period
+      @(cross(V(phase) + `M_PI/2, +1, ttol) or cross(V(phase) - `M_PI/2, +1, ttol))
+        dphs = 2*`M_PI*1.414*jitter*$rdist_normal(seed, 0, 1);
+      // phase with noise\
+      nphs = V(phase)+dphs;
+      
+      //generate the output
+      Vo = 0.5*cos(nphs)+0.5;	  // output sine 0 to 1	
+      V(out) <+ transition(Vo>0.5,0,risetime);
+   end
+   
+   always  @(cross(V(out)-0.5,0))  dout <= ~dout;
+      
+endmodule

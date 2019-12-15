@@ -2,7 +2,7 @@
 `include "lpfn.v"
 `include "lpfkp.v"
 module alg_nn(n,kp,clk,inc);
-   input [2:0] n;
+   input [3:0] n;
    input [7:0] kp;
    input clk;
    output [7:0] inc;

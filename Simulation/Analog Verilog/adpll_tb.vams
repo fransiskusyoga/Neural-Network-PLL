@@ -1,0 +1,37 @@
+`include "constants.vams"
+`include "disciplines.vams"
+`include "bbpfd.v"
+`include "dlf.v"
+`include "adc.vams"
+`include "vco.vams"
+`include "div8clk.v"
+`timescale 10ps / 10ps
+
+module adpll_tb();
+    electrical gnd;
+    ground gnd;
+    wire dout,dv8,dv64,spfd;
+    reg rclk = 1'b0;
+    reg [7:0] Kp = 8'd12;
+    wire [15:0] sdlf;
+    electrical sadc;
+    
+    // Phase Frequency detector
+    bbpfd BBPFD(.ref(rclk),.gen(dv64),.out(spfd));
+    // Digital loop filter
+    dlf DLF(.clk(rclk),.in(spfd),.Kp(Kp),.out(sdlf));
+    //Analog to digital converter
+    adc ADC(.in(sdlf[15:9]), .out(sadc));
+    // Voltage controlled oscilator
+    vco VCO(.in(sadc),.phase(phs),.out(),.dout(dout));
+    // First clock divider
+    div8clk div8_1(.clk(dout),.nclk(dv8));
+    // Second clock divider
+    div8clk div8_2(.clk(dv8),.nclk(dv64));
+    
+    // Digital source without noise
+    always #1000 rclk = !rclk; //50MHz
+    
+    // Analog source
+    //vsource #(.type("sine"), .ampl(0.5), .dc(0.5), .freq(2M)) v0 (in, gnd);
+endmodule

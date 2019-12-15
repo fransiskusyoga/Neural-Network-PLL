@@ -1,0 +1,60 @@
+`include "constants.vams"
+`include "disciplines.vams"
+`include "bbpfd.v"
+`include "dlf.v"
+`include "adc.vams"
+`include "vco.vams"
+`include "div8clk.v"
+`include "dsm.v"
+`include "upcount3rst.v"
+`include "upcount4rst.v"
+`include "upcount4hit.v"
+`include "alg_nn.v"
+`include "updatekp.v"
+`timescale 10ps / 10ps
+
+module adpll_nn_tb();
+    electrical gnd;
+    ground gnd;
+    wire dout,dv8,dv64;
+    wire rclk;
+    wire phs_ref,phs_vco;
+    wire spfd,sdsm;
+    wire hit;
+    wire [3:0] nrise;
+    wire [7:0] inckp, Kp;
+    wire [15:0] sdlf;
+    wire [6:0] newsdlf;
+    electrical sadc;
+    
+    // Phase Frequency detector
+    bbpfd BBPFD(.ref(rclk),.gen(dv64),.out(spfd));
+    // Digital loop filter
+    dlf DLF(.clk(rclk),.in(spfd),.Kp(Kp),.out(sdlf));
+    // autocorrelation
+    upcount4rst risecntr(.clk(spfd),.rst(hit),.out(nrise));
+    upcount4hit divcntr(.clk(rclk),.out(),.hit(hit));
+    alg_nn NN(.n(nrise),.kp(Kp),.clk(hit),.inc(inckp));
+    updatekp UpdateKP(.inc(inckp),.clk(hit),.kp(Kp));
+    // DLF and DSM adder
+    assign newsdlf = sdlf[15:9]+sdsm;
+    //Analog to digital converter
+    adc ADC(.in(newsdlf), .out(sadc));
+    // Voltage controlled oscilator
+    vco VCO(.in(sadc),.phase(phs_vco),.out(),.dout(dout));
+    // First clock divider
+    div8clk div8_1(.clk(dout),.nclk(dv8));
+    // Delta sigma modulater
+    dsm DSM(.in(sdlf[8:0]),.clk(dv8),.out(sdsm));
+    // Second clock divider
+    div8clk div8_2(.clk(dv8),.nclk(dv64));
+    
+    // Digital source without noise
+    //always #1000 rclk = !rclk; //50MHz
+    // Digital reference source with noise
+    reference REF(.phase(phs_ref),.out(),.dout(rclk));
+    
+    
+    // Analog source
+    //vsource #(.type("sine"), .ampl(0.5), .dc(0.5), .freq(2M)) v0 (in, gnd);
+endmodule

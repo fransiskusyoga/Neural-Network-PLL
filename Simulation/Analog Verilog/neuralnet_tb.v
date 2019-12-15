@@ -1,4 +1,5 @@
 `include "neuralnet.v"
+//this code require an update
 module neuralnet_tb();
    reg [7:0] avgn, avgkp;
    wire [7:0] k3,k4;

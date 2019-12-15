@@ -1,10 +1,10 @@
 module dsm(in,clk,out);
-   input [9:0] in;
+   input [8:0] in;
    input clk;
    output out;
-   reg [11:0] mem = 12'b0;
-   wire [11:0] dif;
+   reg [10:0] mem = 11'b0;
+   wire [10:0] dif;
    always @(posedge clk) mem<=mem+dif;
-   assign dif = {2'b0,in}-(out ? 12'd1023:12'd0);
-   assign out = (!mem[11]) && (|mem[10:9]);
+   assign dif = {2'b0,in}-(out ? 11'd511:11'd0);
+   assign out = (!mem[10]) && (|mem[9:8]);
 endmodule

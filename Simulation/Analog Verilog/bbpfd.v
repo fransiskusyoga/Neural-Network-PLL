@@ -1,6 +1,6 @@
 module bbpfd(ref,gen,out);
    input ref,gen;
-   output reg out;
+   output reg out = 1'b0;
    wire rst;
    reg dref=1'b0,dgen=1'b0;
    // reference DFF

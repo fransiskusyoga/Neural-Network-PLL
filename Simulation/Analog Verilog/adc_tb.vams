@@ -1,0 +1,17 @@
+`include "constants.vams"
+`include "disciplines.vams"
+`include "adc.vams"
+`timescale 1ns / 1ps
+
+module adc_tb();
+   reg [6:0] dig;
+   electrical alg;
+   
+   initial begin
+      dig = 7'd26;
+      #100 dig = 7'd51;
+      #100 dig = 7'd77;
+      #100 dig = 7'd104;
+   end
+   adc A1(dig, alg);
+endmodule

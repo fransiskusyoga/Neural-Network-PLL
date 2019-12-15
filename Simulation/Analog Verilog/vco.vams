@@ -1,0 +1,46 @@
+`include "constants.vams"
+`include "disciplines.vams"
+
+module vco(in,phase,out,dout);
+   input in; 
+	output phase;
+	output out;
+   output dout; 
+	electrical in;
+	electrical phase;
+	electrical out;
+   reg dout = 1'b0;
+	
+	parameter real Fmin=3.1e9 from (0:inf);	
+	parameter real DCO_Gain=400e6;
+	parameter real risetime = 30p from (0:inf);
+	parameter real jitter = 5e-13 from [0:inf);
+	parameter real ttol = 1e-12 from (0:1e-9);
+
+   real freq, dT , Vo;
+   integer n, seed;
+   
+	analog begin 
+      @(initial_step) seed = -561;
+      //compute the frequency from input current
+      freq = V(in)*DCO_Gain + Fmin;
+      
+      //add the phase noise
+      freq = freq/(1+dT*freq);
+      
+      //phase is the integral of the freq module 2pi
+      V(phase) <+ 2*`M_PI*idtmod(freq, 0, 1.0, -0.5);
+      
+      //update jitter twice per period
+      @(cross(V(phase) + `M_PI/2, +1, ttol) or cross(V(phase) - `M_PI/2, +1, ttol)) begin
+        dT = 1.414*jitter*$rdist_normal(seed, 0, 1);
+      end
+      
+      //generate the output
+      Vo = 0.5*cos(V(phase))+0.5;	  // output sine 0 to 1	
+      V(out) <+ transition(Vo>0.5,0,risetime);
+   end
+   
+   always  @(cross(V(out)-0.5,0))  dout <= ~dout;
+      
+endmodule

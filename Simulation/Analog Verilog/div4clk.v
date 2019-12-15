@@ -1,4 +1,5 @@
-`include "div2clk.v"module div4clk(clk,nclk);
+`include "div2clk.v"
+module div4clk(clk,nclk);
    input clk;
    output nclk;
    wire clk2;

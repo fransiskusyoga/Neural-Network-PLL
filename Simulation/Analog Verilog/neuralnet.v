@@ -1,8 +1,8 @@
 `include "ReLU.v"
-`include "tanh.v"
+//`include "tanh.v"
 module neuralnet(avgn,avgkp,k3,k4);
-   //avgn -real-> 0 sign,3 decimal,5 fractional
-   //     -act--> 0 sign,2 decimal,6 fractional (div by 2)
+   //avgn -real-> 0 sign,4 decimal,4 fractional
+   //     -act--> 0 sign,2 decimal,6 fractional (div by 4)
    //avgkp-real-> 0 sign,8 decimal,0 fractional
    //     -act--> 0 sign,2 decimal,6 fractional (div by 64)
    input [7:0] avgn,avgkp;
@@ -10,15 +10,15 @@ module neuralnet(avgn,avgkp,k3,k4);
    // perceptron in hidden layer
    // 1 sign bit, 3 decimal, 12 fractional
    wire signed [15:0] h1,h2; //sum of weighted input
-   // 1 sign bit, 1 decimal, 6 fractional
+   // 1 sign bit, 2 decimal, 5 fractional
    wire signed [7:0] ha1,ha2; //output of activation function
    // output layer temporary variable
    wire signed [15:0] t3,t4;
    // weight of input to hidden layer
    // 1 sign bit, 1 decimal, 6 fractional
-   // w111=0.3813 , w121=0.1483
-   // w112=0.2755 , w122=1.4498
-   reg signed [7:0] w111=8'h18, w121=8'h09;
+   // w111=0.1907 , w121=0.1483
+   // w112=0.1483 , w122=1.4498
+   reg signed [7:0] w111=8'h30, w121=8'h12;
    reg signed [7:0] w112=8'h12, w122=8'h5D;
    // weight of hidden to output layer
    // 1 sign bit, 1 decimal, 6 fractional
@@ -35,6 +35,6 @@ module neuralnet(avgn,avgkp,k3,k4);
    // calculation hidden to output layer
    assign t3 = w211*ha1 + w212*ha2;
    assign t4 = w221*ha1 + w222*ha2;
-   assign k3 = t3[13:6];
-   assign k4 = t4[13:6];
+   assign k3 = t3[12:5];
+   assign k4 = t4[12:5];
 endmodule
