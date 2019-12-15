@@ -1,9 +1,9 @@
 ## Simulation Folder
-This folder contains all fiel to do simmulation
+This folder contains all file to do simmulation Analog verilog folder contains simmulation for analog verilog simmulator. It is tested in nc launc environment. Matlab folder contains all simulation that developed using matlab.
 
 ### Folders and Files
 - Matlab
-  
+
   Matlab with simulink
   - ADPLL_base.slx: Model of full analog digital phase-locked loop. Use ADPLL_simulink.m to run this
   - ADPLL_autocor.slx: Model of full analog digital pahse locked loop with autocorrelation
